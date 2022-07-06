@@ -1,0 +1,80 @@
+#
+# Michael Nolan
+# 6 July 2022
+# Tkinter GUI Mortgage Calculator
+#
+
+import tkinter as tk
+
+
+class GUI:
+    def __init__(self):
+        self.root = tk.Tk()
+        self.root.title("Calculator")
+        self.root.geometry('400x400')
+
+        # Frames
+        self.frame1 = tk.Frame(self.root)
+        self.frame2 = tk.Frame(self.root)
+        self.frame3 = tk.Frame(self.root)
+        self.frame4 = tk.Frame(self.root)
+        self.frame5 = tk.Frame(self.root)
+
+        # Home Price Label
+        self.loan_amount = tk.Label(self.frame1, text='Loan Amount:')
+        self.loan_amount.pack(side='left')
+
+        # Home Price Entry
+        self.loan_amount_entry = tk.Entry(self.frame1)
+        self.loan_amount_entry.pack(side='left')
+
+        # Term Length Label
+        self.term_length = tk.Label(self.frame2, text='Term Length in Months:')
+        self.term_length.pack(side='left')
+
+        # Term Length Entry
+        self.term_length_entry = tk.Entry(self.frame2)
+        self.term_length_entry.pack(side='left')
+
+        # Interest Rate Label
+        self.int_rate = tk.Label(self.frame3, text='Interest Rate:')
+        self.int_rate.pack(side='left')
+
+        # Interest Rate Entry
+        self.int_rate_entry = tk.Entry(self.frame3)
+        self.int_rate_entry.pack()
+
+        # Monthly Payment
+        self.payment = tk.StringVar()
+        self.payment_label = tk.Label(self.frame4, textvariable=self.payment)
+        self.payment_label.pack(side='left')
+        self.payment.set("Monthly Payment: $")
+
+        # Calculate Button
+        self.calculate_btn = tk.Button(self.frame5, text='Calculate', command=self.monthly_payment)
+        self.calculate_btn.pack(side='left')
+
+        # Quit Button
+        self.quit_btn = tk.Button(self.frame5, text='Quit', command=self.root.destroy)
+        self.quit_btn.pack(side='left')
+
+        # Unpacking frames
+        self.frame1.pack()
+        self.frame2.pack()
+        self.frame3.pack()
+        self.frame4.pack()
+        self.frame5.pack()
+
+        tk.mainloop()
+
+    def monthly_payment(self):
+        loan = float(self.loan_amount_entry.get())
+        term = int(self.term_length_entry.get())
+        interest_rate = float(self.int_rate_entry.get())
+        interest = float(((interest_rate / 100) / 12))
+
+        m_payment = loan * (interest * (1 + interest)**term) / ((1 + interest)**term - 1)
+        self.payment.set(f"Monthly Payment: $  {m_payment:.2f}")
+
+
+x = GUI()
